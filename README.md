@@ -1,0 +1,46 @@
+CREATE TABLE IF NOT EXISTS Genre(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(40) NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS Executor(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(40) NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS Genre_Executor(
+	genre_id INTEGER NOT NULL REFERENCES Genre(id),
+	executor_id INTEGER NOT NULL REFERENCES Executor(id),
+	CONSTRAINT pk PRIMARY KEY (Genre_id, Executor_id)
+);
+
+CREATE TABLE IF NOT EXISTS Album(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(40) NOT NULL,
+	release_date DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Executor_album(
+	executor_id INTEGER NOT NULL REFERENCES Executor(id),
+	album_id INTEGER NOT NULL REFERENCES Album(id),
+	CONSTRAINT pk PRIMARY KEY (Executor_id, Album_id)
+);
+
+CREATE TABLE IF NOT EXISTS Tracks(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(40) NOT NULL,
+	duration TIME NOT NULL,
+	album_id integer NOT NULL REFERENCES Album(id)
+);
+
+CREATE TABLE IF NOT EXISTS Compilation(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(40) NOT NULL,
+	release_date DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Compilation_Tracks(
+	compilation_id INTEGER NOT NULL REFERENCES Compilation(id),
+	tracks_id INTEGER NOT NULL REFERENCES Tracks(id),
+	CONSTRAINT pk PRIMARY KEY (Compilation_id, Tracks_id)
+);
